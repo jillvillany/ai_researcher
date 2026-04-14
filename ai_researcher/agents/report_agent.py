@@ -7,7 +7,7 @@ from ai_researcher.tools.report_tools import generate_pdf_report
 class ReportAgent():
     def __init__(self):
         self.llm = ChatOllama(
-            model="llama3",
+            model="granite4:3b",
             temperature=0
         )
         self.tools = [generate_pdf_report]

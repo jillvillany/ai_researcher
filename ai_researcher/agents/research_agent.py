@@ -3,16 +3,16 @@ from langchain_classic.agents import create_react_agent
 from langchain_classic.agents.agent import AgentExecutor
 from langchain_classic import hub
 
-from ai_researcher.tools.research_tools import research_digest
+from ai_researcher.tools.research_tools import search_ai_research, summarize_with_citations
 
 
 class ResearchAgent():
     def __init__(self):
         self.llm = ChatOllama(
-            model="llama3",
+            model="granite4:3b",
             temperature=0
         )
-        self.tools = [research_digest]
+        self.tools = [search_ai_research, summarize_with_citations]
         self.prompt = hub.pull("hwchase17/react")
         self.agent = create_react_agent(
             self.llm,
