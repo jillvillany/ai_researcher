@@ -1,5 +1,8 @@
 # ai_researcher
 
+# IMPORTANT NOTE:
+This example is not complete because a known issue with Ollama + tool calling is that it will summarize the tool input instead of passing the actual data. Thus, the multi-agent / multi-tool workflow is hard to implement in a working version unless the later tool is only needed for summarization.
+
 ## Quickstart
 - clone repo
 - Download Ollama
