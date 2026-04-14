@@ -1,14 +1,12 @@
-
+from langchain_core.tools import tool
 import arxiv
-from langchain.tools import tool
 from textwrap import dedent
 
 
-@tool
-def search_ai_research(query:str) -> str:
+@tool(return_direct=True)
+def research_digest(query: str) -> str:
     """
-    Searches arXiv for the latest AI research papers.
-    Returns top 3 newest results.
+    Search arXiv for latest AI research and return formatted citations.
     """
 
     search = arxiv.Search(
@@ -17,39 +15,18 @@ def search_ai_research(query:str) -> str:
         sort_by=arxiv.SortCriterion.SubmittedDate
     )
 
-    results = []
-
-    for paper in search.results():
-        results.append({
-            "title": paper.title,
-            "authors": [a.name for a in paper.authors],
-            "published": str(paper.published.date()),
-            "summary": paper.summary,
-            "link": paper.entry_id
-        })
-
-    return results
-
-
-@tool
-def summarize_with_citations(papers:list[dict]) -> str:
-    """
-    Summarizes research papers and formats output
-    with article title, author, and publication date.
-    """
-
     summaries = []
 
-    for paper in papers:
+    for paper in search.results():
 
         summary = f"""
-        Title: {paper['title']}
-        Authors: {", ".join(paper['authors'])}
-        Published: {paper['published']}
-        Link: {paper['link']}
+        Title: {paper.title}
+        Authors: {", ".join(a.name for a in paper.authors)}
+        Published: {paper.published.date()}
+        Link: {paper.entry_id}
 
         Summary:
-        {paper['summary']}
+        {paper.summary}
         """
 
         summaries.append(dedent(summary))

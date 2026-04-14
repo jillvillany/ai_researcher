@@ -2,17 +2,15 @@ from langchain_community.chat_models import ChatOllama
 from langchain_classic.agents import create_react_agent
 from langchain_classic.agents.agent import AgentExecutor
 from langchain_classic import hub
+from ai_researcher.tools.report_tools import generate_pdf_report
 
-from ai_researcher.tools.research_tools import research_digest
-
-
-class ResearchAgent():
+class ReportAgent():
     def __init__(self):
         self.llm = ChatOllama(
             model="llama3",
             temperature=0
         )
-        self.tools = [research_digest]
+        self.tools = [generate_pdf_report]
         self.prompt = hub.pull("hwchase17/react")
         self.agent = create_react_agent(
             self.llm,
@@ -25,16 +23,9 @@ class ResearchAgent():
             verbose=True
         )
 
-    def run(self, query):
+    def run(self, report_data):
         response = self.executor.invoke({
-            "input": f"Find the latest AI research that pertains to th query below and summarize it with citations.\nQuery:\n{query}"
+            "input": f"Use the research data below to generate a nicely formatted PDF:\n{report_data}"
         })
 
         return response["output"]
-
-
-if __name__ == "__main__":
-    query = "latest NLP research for AI engineers"
-
-    research_agent = ResearchAgent()
-    print(research_agent.run(query))
