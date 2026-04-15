@@ -1,42 +1,31 @@
 from langchain_core.tools import tool
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.pagesizes import letter
+from playwright.sync_api import sync_playwright
 from datetime import datetime
-import os
 
 
 @tool(return_direct=True)
-def generate_pdf_report(report_text: str) -> str:
+def convert_html_to_pdf(report_html: str) -> str:
     """
     Generate a formatted PDF report from research summary text.
     Returns the file path of the generated PDF.
     """
 
+    report_html = report_html.split("```html")[-1]
+    report_html = report_html.split("```")[0]
+
+
     filename = f"ai_research_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
 
-    output_path = os.path.join(os.getcwd(), filename)
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page()
 
-    doc = SimpleDocTemplate(output_path)
+        page.set_content(report_html, wait_until="networkidle")
 
-    styles = getSampleStyleSheet()
+        page.pdf(
+            path=f"tmp/{filename}",
+            format="A4",
+            print_background=True
+        )
 
-    elements = []
-
-    # Title
-    elements.append(
-        Paragraph("AI Research Report", styles["Title"])
-    )
-
-    elements.append(Spacer(1, 20))
-
-    # Split content into paragraphs
-    for section in report_text.split("\n\n\n"):
-
-        if section.strip():
-            elements.append(
-                Paragraph(section.strip(), styles["BodyText"])
-            )
-            elements.append(Spacer(1, 10))
-
-    doc.build(elements)
+        browser.close()

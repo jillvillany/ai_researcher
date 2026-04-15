@@ -209,3 +209,4 @@ __marimo__/
 #custom
 .DS_Store
 launch.json
+tmp/
