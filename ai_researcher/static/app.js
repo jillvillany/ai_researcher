@@ -73,7 +73,7 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   setLoading(true);
-  setStatus("Searching arXiv and generating report...");
+  setStatus("Searching Google News and generating report...");
   logSection.classList.remove("hidden");
   updateLogs("");
   resetResults();

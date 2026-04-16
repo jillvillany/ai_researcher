@@ -25,4 +25,4 @@
 
 ## Notes
 - gtp-5.4-mini and gtp-5.4 were too judgemental of what Arxiv returned and would not just summarize the articles returned by the search
-- gtp-5.4-mini did much better with a general internet search
+- gtp-5.4-mini did much better with a general internet search but was variable in performance even with temperature set to 0
