@@ -1,14 +1,14 @@
+from textwrap import dedent
 
 import arxiv
 from langchain.tools import tool
-from textwrap import dedent
 
 
 @tool
 def search_ai_research(query:str) -> str:
     """
     Searches arXiv for the latest AI research papers.
-    Returns top 3 newest results.
+    Returns top 3 newest results as a readable text digest.
     """
 
     search = arxiv.Search(
@@ -28,30 +28,18 @@ def search_ai_research(query:str) -> str:
             "link": paper.entry_id
         })
 
-    return results
+    if not results:
+        return "No papers were found for that query."
 
-
-@tool
-def summarize_with_citations(papers:list[dict]) -> str:
-    """
-    Summarizes research papers and formats output
-    with article title, author, and publication date.
-    """
-
-    summaries = []
-
-    for paper in papers:
-
-        summary = f"""
+    paper_summaries = []
+    for paper in results:
+        paper_summary = f"""
         Title: {paper['title']}
         Authors: {", ".join(paper['authors'])}
         Published: {paper['published']}
         Link: {paper['link']}
-
-        Summary:
-        {paper['summary']}
+        Abstract: {paper['summary']}
         """
+        paper_summaries.append(dedent(paper_summary).strip())
 
-        summaries.append(dedent(summary))
-
-    return "\n\n".join(summaries)
+    return "\n\n".join(paper_summaries)

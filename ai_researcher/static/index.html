@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero-card">
+        <h1>What's the latest in AI?</h1>
+
+        <form id="search-form" class="search-panel">
+          <button id="submit-button" type="submit">Search and Generate Report</button>
+        </form>
+
+        <div class="status-row">
+          <p id="status-message" class="status-message" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="results" class="results-section hidden">
+        <article class="result-card">
+          <iframe
+            id="report-preview"
+            class="report-preview hidden"
+            title="Generated PDF report preview"
+          ></iframe>
+          <div id="report-empty" class="report-empty">
+            Run a search to generate and preview the PDF report.
+          </div>
+          <a id="report-link" class="report-link hidden" href="#" target="_blank" rel="noreferrer">
+            Open PDF in new tab
+          </a>
+        </article>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
