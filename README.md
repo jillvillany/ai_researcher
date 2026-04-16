@@ -9,6 +9,7 @@
 - `uv sync`
 - `playwright install`
 - `uv pip install -e .`
+- `python ai_researcher/app.py`
 
 
 ## Key notes
