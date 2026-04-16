@@ -1,35 +1,60 @@
-from langchain_community.chat_models import ChatOllama
-from langchain_classic.agents import create_react_agent
-from langchain_classic.agents.agent import AgentExecutor
-from langchain_classic import hub
+import os
+
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
+
 from ai_researcher.tools.report_tools import convert_html_to_pdf
+
+
+def _extract_text_content(content):
+    if isinstance(content, str):
+        return content
+
+    text_parts = []
+    for item in content:
+        if isinstance(item, dict) and item.get("type") == "text":
+            text_parts.append(item.get("text", ""))
+
+    return "\n".join(part for part in text_parts if part).strip()
+
+
+def _extract_html_document(text):
+    if "```html" in text:
+        return text.split("```html", 1)[1].split("```", 1)[0].strip()
+
+    if "```" in text:
+        return text.split("```", 1)[1].split("```", 1)[0].strip()
+
+    return text.strip()
+
 
 class ReportAgent():
     def __init__(self):
-        self.llm = ChatOllama(
-            model="granite4:3b",
-            temperature=0
-        )
-        self.tools = [convert_html_to_pdf]
-        self.prompt = hub.pull("hwchase17/react")
-        self.agent = create_react_agent(
-            self.llm,
-            self.tools,
-            self.prompt
-        )
-        self.executor = AgentExecutor(
-            agent=self.agent,
-            tools=self.tools,
-            verbose=True
+        self.llm = ChatOpenAI(
+            model=os.getenv("OPENAI_REPORT_MODEL", "gpt-5.4"),
+            temperature=0,
         )
 
     def run(self, report_data):
-        response = self.executor.invoke({
-            "input": "Use the research data below to generate a report in HTML/CSS format."
-            "Make sure the HTML starts with ```html <!doctype html> and ends with </html>```"
-            "Use the text between ```html and ``` to convert the HTML/CSS to a PDF."
-            "The report should be colorful and professional."
-            f"Report Data:\n{report_data}"
-        })
-
-        return response["output"]
+        response = self.llm.invoke(
+            [
+                SystemMessage(
+                    content=(
+                        "You create polished, modern AI research reports. "
+                        "Return only a complete HTML document with inline CSS."
+                    )
+                ),
+                HumanMessage(
+                    content=(
+                        "Use the research data below to generate a simple, modern report. "
+                        "Start with <!doctype html> and end with </html>.\n"
+                        "Do not include any of your thought logic in the report - only the report content."
+                        "The title should just be 'Research Report Dated {toodays date}'"
+                        f"Report Data:\n{report_data}"
+                    )
+                ),
+            ]
+        )
+        report_html = _extract_html_document(_extract_text_content(response.content))
+        print("ReportAgent generated HTML report.", flush=True)
+        return convert_html_to_pdf.invoke({"report_html": report_html})

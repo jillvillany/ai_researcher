@@ -15,7 +15,7 @@
   <body>
     <main class="page-shell">
       <section class="hero-card">
-        <h1>What's the latest in AI?</h1>
+        <h1>Research the latest in AI</h1>
 
         <form id="search-form" class="search-panel">
           <button id="submit-button" type="submit">Search and Generate Report</button>
@@ -24,6 +24,11 @@
         <div class="status-row">
           <p id="status-message" class="status-message" aria-live="polite"></p>
         </div>
+      </section>
+
+      <section id="log-section" class="log-section hidden">
+        <label class="log-label" for="agent-stdout">Agent stdout</label>
+        <textarea id="agent-stdout" class="log-output" readonly spellcheck="false"></textarea>
       </section>
 
       <section id="results" class="results-section hidden">

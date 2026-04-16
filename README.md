@@ -16,5 +16,10 @@
     - `uv sync`
     - `playwright install`
     - `uv pip install -e .`
+    - NOTE: If you get the error "No module named 'ai_researcher'", rerun `uv pip install -e .`
 - Run the app
-- `python ai_researcher/app.py`
+    - `python ai_researcher/app.py`
+
+
+## Notes
+- First started with gtp-5.4-mini but that struggled to create a report in a cohesive way, so needed to switch to gpt-5.4. However, this is still having difficulty with an orchestrator agent workflow.

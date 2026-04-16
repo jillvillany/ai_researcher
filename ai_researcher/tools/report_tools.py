@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 TMP_DIR = Path(__file__).resolve().parents[2] / "tmp"
 
 
-@tool(return_direct=True)
+@tool
 def convert_html_to_pdf(report_html: str) -> str:
     """
     Generate a formatted PDF report from research summary text.
