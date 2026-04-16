@@ -15,8 +15,8 @@ def convert_html_to_pdf(report_html: str) -> str:
     Returns the file path of the generated PDF.
     """
 
-    # report_html = report_html.split("```html")[-1]
-    # report_html = report_html.split("```")[0]
+    report_html = report_html.split("```html")[-1]
+    report_html = report_html.split("```")[0]
 
     TMP_DIR.mkdir(exist_ok=True)
 

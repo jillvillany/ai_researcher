@@ -92,8 +92,56 @@ button:disabled {
   color: #a33e2b;
 }
 
+.log-section,
 .results-section {
   margin-top: 24px;
+}
+
+.log-section {
+  border: 1px solid rgba(133, 161, 149, 0.22);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #0f1714 0%, #111c18 100%);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.log-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(223, 246, 234, 0.12);
+  color: #dff6ea;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.log-label::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #29c17e;
+  box-shadow: 18px 0 0 #e3b341, 36px 0 0 #e5534b;
+}
+
+.log-output {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  padding: 18px;
+  border: 0;
+  background: transparent;
+  color: #dff6ea;
+  font: 0.92rem/1.55 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  resize: vertical;
+  outline: none;
 }
 
 .result-card {
@@ -146,6 +194,16 @@ button:disabled {
 
   .hero-card {
     padding: 24px;
+  }
+
+  .log-label,
+  .log-output {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .log-label::before {
+    left: 14px;
   }
 
   .result-card {
