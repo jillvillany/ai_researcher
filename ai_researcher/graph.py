@@ -51,7 +51,7 @@ class ResearchGraph():
 
 
 if __name__ == "__main__":
-    query = "latest NLP research for AI engineers"
+    query = "AI"
 
     research_graph = ResearchGraph()
     result = research_graph.run(query)

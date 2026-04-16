@@ -25,7 +25,11 @@ class ReportAgent():
 
     def run(self, report_data):
         response = self.executor.invoke({
-            "input": f"Use the research data below to generate a report on AI research in HTML/CSS format. The report should be colorful and professional. Next, Take the raw HTML/CSS and convert it to a PDF:\n{report_data}"
+            "input": "Use the research data below to generate a report in HTML/CSS format."
+            "Make sure the HTML starts with ```html <!doctype html> and ends with </html>```"
+            "Use the text between ```html and ``` to convert the HTML/CSS to a PDF"
+            "The report should be colorful and professional."
+            f"Report Data:\n{report_data}"
         })
 
         return response["output"]

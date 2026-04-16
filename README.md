@@ -6,8 +6,8 @@
 - `ollama pull granite4:3b`
 - `uv venv --python=3.12`
 - `uv sync`
-- `uv pip install -e .`
 - `playwright install`
+- `uv pip install -e .`
 
 
 ## Key notes
