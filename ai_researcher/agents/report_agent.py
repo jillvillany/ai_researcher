@@ -27,7 +27,7 @@ class ReportAgent():
         response = self.executor.invoke({
             "input": "Use the research data below to generate a report in HTML/CSS format."
             "Make sure the HTML starts with ```html <!doctype html> and ends with </html>```"
-            "Use the text between ```html and ``` to convert the HTML/CSS to a PDF"
+            "Use the text between ```html and ``` to convert the HTML/CSS to a PDF."
             "The report should be colorful and professional."
             f"Report Data:\n{report_data}"
         })
