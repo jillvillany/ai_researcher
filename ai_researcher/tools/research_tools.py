@@ -1,45 +1,22 @@
-from textwrap import dedent
-
-import arxiv
+import os
+import serpapi
 from langchain.tools import tool
+from dotenv import load_dotenv
+load_dotenv()
 
 
 @tool
 def search_ai_research(query:str) -> str:
     """
-    Searches arXiv for the latest AI research papers.
-    Returns top 3 newest results as a readable text digest.
+    Searches Google News for the latest information.
+    Related to the user query.
     """
 
-    search = arxiv.Search(
-        query=query,
-        max_results=3,
-        sort_by=arxiv.SortCriterion.SubmittedDate
-    )
+    client = serpapi.Client(api_key=os.getenv("SERPAPI_KEY"))
+    results = client.search({
+    "engine": "google_news",
+    "q": query
+    })
+    news_results = results["news_results"]
 
-    results = []
-
-    for paper in search.results():
-        results.append({
-            "title": paper.title,
-            "authors": [a.name for a in paper.authors],
-            "published": str(paper.published.date()),
-            "summary": paper.summary,
-            "link": paper.entry_id
-        })
-
-    if not results:
-        return "No papers were found for that query."
-
-    paper_summaries = []
-    for paper in results:
-        paper_summary = f"""
-        Title: {paper['title']}
-        Authors: {", ".join(paper['authors'])}
-        Published: {paper['published']}
-        Link: {paper['link']}
-        Abstract: {paper['summary']}
-        """
-        paper_summaries.append(dedent(paper_summary).strip())
-
-    return "\n\n".join(paper_summaries)
+    return news_results

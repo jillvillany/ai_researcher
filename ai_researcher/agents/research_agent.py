@@ -12,7 +12,7 @@ class ResearchAgent():
             search_ai_research.name: search_ai_research,
         }
         self.llm = ChatOpenAI(
-            model=os.getenv("OPENAI_RESEARCH_MODEL", "gpt-5.4"),
+            model=os.getenv("OPENAI_RESEARCH_MODEL", "gpt-5.4-mini"),
             temperature=0,
         ).bind_tools(
             [search_ai_research],
@@ -26,7 +26,9 @@ class ResearchAgent():
                     "You are researching the latest AI information related to the user's query. "
                     "Use tools only to gather evidence. After you have enough evidence, write the "
                     "summary yourself. Do not use tools for summarization or formatting."
-                    "The summary should only summarize the data found from arxiv."
+                    "Provide sources and links for all your findings."
+                    "Do not make up any findings or links."
+                    "You only need to conduct one search as this is a high level summary but be sure to look at multiple sources."
                 )
             ),
             HumanMessage(content=f"Research query:\n{query}"),

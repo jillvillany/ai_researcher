@@ -10,6 +10,7 @@
     ```
     OPENAI_API_KEY={insert key here}
     ```
+- Create a SerpAPI API key
 - Create Python env 
     - `uv venv --python=3.12`
 - Install requirements
@@ -22,4 +23,4 @@
 
 
 ## Notes
-- First started with gtp-5.4-mini but that struggled to create a report in a cohesive way, so needed to switch to gpt-5.4. However, this is still having difficulty with an orchestrator agent workflow.
+- gtp-5.4-mini and gtp-5.4 were too judgemental of what Arxiv returned and would not just summarize the articles returned by the search

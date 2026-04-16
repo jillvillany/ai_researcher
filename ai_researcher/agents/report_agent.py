@@ -31,7 +31,7 @@ def _extract_html_document(text):
 class ReportAgent():
     def __init__(self):
         self.llm = ChatOpenAI(
-            model=os.getenv("OPENAI_REPORT_MODEL", "gpt-5.4"),
+            model=os.getenv("OPENAI_REPORT_MODEL", "gpt-5.4-mini"),
             temperature=0,
         )
 
@@ -48,7 +48,6 @@ class ReportAgent():
                     content=(
                         "Use the research data below to generate a simple, modern report. "
                         "Start with <!doctype html> and end with </html>.\n"
-                        "Do not include any of your thought logic in the report - only the report content."
                         "The title should just be 'Research Report Dated {toodays date}'"
                         f"Report Data:\n{report_data}"
                     )

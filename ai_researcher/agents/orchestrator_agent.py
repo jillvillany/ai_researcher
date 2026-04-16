@@ -22,7 +22,7 @@ class OrchestratorAgent():
         ]
         self.tool_map = {tool_item.name: tool_item for tool_item in self.tools}
         self.llm = ChatOpenAI(
-            model=os.getenv("OPENAI_ORCHESTRATOR_MODEL", "gpt-5.4"),
+            model=os.getenv("OPENAI_ORCHESTRATOR_MODEL", "gpt-5.4-mini"),
             temperature=0,
         ).bind_tools(
             self.tools,

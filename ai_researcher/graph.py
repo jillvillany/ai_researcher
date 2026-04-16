@@ -9,7 +9,7 @@ class ResearchGraph():
 
 
 if __name__ == "__main__":
-    query = "AI"
+    query = "research the latest in agentic AI and generate a report"
 
     research_graph = ResearchGraph()
     result = research_graph.run(query)
