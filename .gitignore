@@ -4,4 +4,4 @@
 .pytest_cache
 ai_researcher
 tmp
-.DS_STORE
+.DS_Store
