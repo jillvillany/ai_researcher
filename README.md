@@ -1,21 +1,13 @@
 # ai_researcher
 
-## Quickstart
-- Fork the following repo: https://github.com/jillvillany/ai_researcher
-- Clone the forked repo: `git clone git@github.com:jillvillany/ai_researcher.git`
-- Download Ollama: https://ollama.com/download
-- `ollama pull granite4:3b`
-- `uv venv --python=3.12`
-- `uv sync`
-- `playwright install`
-- `python ai_researcher/app.py`
+The purpose of this repo is to demonstrate 3 different methods for orchestrating an agentic system. Each branch shows how you can accomplish the same task with different methodology.
 
+## Branches
+- `ollama`: this branch deonstrates using ollama and Langraph to orchestrate a 2 agent system
+- `openai`: this branch demonstrates using openai with an orchestrator agent to manage 2 agents working together
+- `mcp`: this branch demonstrates a mcp client/ server relationship where the server hosts multiple tools
 
-## Key notes
-- Doc strings are very important for tools
-- We are using Ollama for:
-    - cost free, local inference
-    - optimal privacy and security
-- The model used is VERY important - first tried using llama3:8b and had issues because:
-    - multi-tool tool reasoning is lacking
-    - Tends to summarize the outputs of a tool, rather than passing the full value to the next tool
+##  App Functionality
+The purpose of this website is to generate a research report on any topic of interest to you. Simply enter your query and it will:
+- Searcb Google News for the latest information
+- Generate a nicely formatted PDF document
