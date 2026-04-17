@@ -2,13 +2,12 @@
 
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
-- Clone the forked repo: `git clone ...`
+- Clone the forked repo: `git clone git@github.com:jillvillany/ai_researcher.git`
 - Download Ollama: https://ollama.com/download
 - `ollama pull granite4:3b`
 - `uv venv --python=3.12`
 - `uv sync`
 - `playwright install`
-- `uv pip install -e .`
 - `python ai_researcher/app.py`
 
 
