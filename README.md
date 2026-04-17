@@ -2,7 +2,7 @@
 
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
-- Clone the forked repo: `git clone git@github.com:jillvillany/ai_researcher.git`
+- Clone the forked repo
 - Download Ollama: https://ollama.com/download
 - `ollama pull granite4:3b`
 - `uv venv --python=3.12`
