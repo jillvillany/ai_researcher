@@ -53,11 +53,21 @@ async def _run_mcp_query(job_id, query):
 def run_search_job(job_id, query):
     stream = JobLogStream(job_id)
 
+    # Fix 1: new event loop per thread to avoid anyio cancel scope crash
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
     try:
         with redirect_stdout(stream), redirect_stderr(stream):
-            result = asyncio.run(_run_mcp_query(job_id, query))
+            result = loop.run_until_complete(_run_mcp_query(job_id, query))
+
+        # Fix 2: log the raw result OUTSIDE the redirect so you can see it in terminal
+        print(f"DEBUG run_search_job result: {repr(result)}", flush=True)
 
         report_pdf_url = result if isinstance(result, str) and result.startswith("/reports/") else ""
+
+        # Fix 3: log what report_pdf_url resolved to
+        print(f"DEBUG report_pdf_url: {repr(report_pdf_url)}", flush=True)
 
         with jobs_lock:
             jobs[job_id]["status"] = "completed"
@@ -71,6 +81,8 @@ def run_search_job(job_id, query):
         with jobs_lock:
             jobs[job_id]["status"] = "failed"
             jobs[job_id]["error"] = str(exc)
+    finally:
+        loop.close()
 
 
 @app.route("/")
@@ -80,8 +92,7 @@ def home():
 
 @app.route("/reports/<path:filename>")
 def serve_report(filename):
-    return send_from_directory(REPORTS_DIR, filename)
-
+    return send_from_directory(REPORTS_DIR, filename, mimetype="application/pdf")
 
 @app.post("/api/search")
 def search():

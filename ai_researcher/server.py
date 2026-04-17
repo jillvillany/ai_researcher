@@ -128,8 +128,10 @@ def search_ai_research(query: str) -> str:
 @mcp.tool()
 async def convert_html_to_pdf(report_html: str) -> str:
     """
-    Generate a formatted PDF report from research summary text.
-    Returns the file path of the generated PDF.
+    Generate a PDF from a complete HTML document.
+    The report_html argument MUST be a full HTML document starting with <!doctype html>
+    or <html>. Do NOT pass plain text or markdown — pass valid HTML only.
+    Returns the /reports/<filename> URL of the generated PDF.
     """
     _debug_log("convert_html_to_pdf: normalizing HTML input")
     report_html = _normalize_report_html(report_html)
