@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-@tool()
+# NOTE: Since the is a smaller model - return_direct is needed
+# So that this tool usage doesn't loop
+@tool(return_direct=True)
 def search_ai_research(query: str) -> str:
     """
     Searches Google News for the latest information and fetches article content.

@@ -50,8 +50,9 @@ def _normalize_report_html(report_html: str) -> str:
 </html>"""
 
 
-
-@tool()
+# NOTE: Since the is a smaller model - return_direct is needed
+# So that this tool usage doesn't loop
+@tool(return_direct=True)
 def convert_html_to_pdf(report_html: str) -> str:
     """
     Generate a PDF from a complete HTML document.
