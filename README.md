@@ -2,7 +2,7 @@
 
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
-- Clone the forked repo: `git clone ...`
+- Clone the forked repo: `git clone git@github.com:jillvillany/ai_researcher.git`
 - Create a `.env` file that looks like the below
     ```
     OPENAI_API_KEY={insert key here}
@@ -17,8 +17,6 @@
 - Install requirements
     - `uv sync`
     - `playwright install`
-    - `uv pip install -e .`
-    - NOTE: If you get the error "No module named 'ai_researcher'", rerun `uv pip install -e .`
 - Run the app
     - `python ai_researcher/app.py`
 
