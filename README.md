@@ -11,3 +11,17 @@ The purpose of this repo is to demonstrate 3 different methods for orchestrating
 The purpose of this website is to generate a research report on any topic of interest to you. Simply enter your query and it will:
 - Searcb Google News for the latest information
 - Generate a nicely formatted PDF document
+
+![Start search](images/start.png)
+
+<p align="center">
+  <img src="./images/arrow.png" width="50"/>
+</p>
+
+![terminal](images/terminal.png)
+
+<p align="center">
+  <img src="./images/arrow.png" width="50"/>
+</p>
+
+![pdf](images/pdf.png)
