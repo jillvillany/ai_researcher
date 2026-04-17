@@ -12,16 +12,18 @@ The purpose of this website is to generate a research report on any topic of int
 - Searcb Google News for the latest information
 - Generate a nicely formatted PDF document
 
-![Start search](images/start.png)
-
+<p align="center">
+  <img src="./images/start.png"/>
+</p>
 <p align="center">
   <img src="./images/arrow.png" width="50"/>
 </p>
-
-![terminal](images/terminal.png)
-
+<p align="center">
+  <img src="./images/terminal.png"/>
+</p>
 <p align="center">
   <img src="./images/arrow.png" width="50"/>
 </p>
-
-![pdf](images/pdf.png)
+<p align="center">
+  <img src="./images/pdf.png"/>
+</p>
