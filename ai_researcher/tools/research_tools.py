@@ -1,45 +1,66 @@
-from textwrap import dedent
-
-import arxiv
+import os
+import json
+import requests
+from bs4 import BeautifulSoup
 from langchain.tools import tool
+from dotenv import load_dotenv
+load_dotenv()
 
 
-@tool
-def search_ai_research(query:str) -> str:
+@tool()
+def search_ai_research(query: str) -> str:
     """
-    Searches arXiv for the latest AI research papers.
-    Returns top 3 newest results as a readable text digest.
+    Searches Google News for the latest information and fetches article content.
+    Returns a summary of article titles, sources, and text content.
     """
+    api_key = os.getenv("SERPAPI_KEY")
+    if not api_key:
+        raise ValueError("SERPAPI_KEY is not set.")
 
-    search = arxiv.Search(
-        query=query,
-        max_results=3,
-        sort_by=arxiv.SortCriterion.SubmittedDate
+    response = requests.get(
+        "https://serpapi.com/search.json",
+        params={
+            "engine": "google_news",
+            "q": query,
+            "api_key": api_key,
+        },
+        timeout=30,
     )
+    response.raise_for_status()
+    results = response.json()
+    news_results = results.get("news_results", [])[:5]  # limit to top 5
 
-    results = []
+    articles = []
+    for item in news_results:
+        title = item.get("title", "")
+        link = item.get("link", "")
+        source = item.get("source", {}).get("name", "")
+        date = item.get("date", "")
+        content = ""
 
-    for paper in search.results():
-        results.append({
-            "title": paper.title,
-            "authors": [a.name for a in paper.authors],
-            "published": str(paper.published.date()),
-            "summary": paper.summary,
-            "link": paper.entry_id
+        if link:
+            try:
+                page = requests.get(
+                    link,
+                    timeout=10,
+                    headers={"User-Agent": "Mozilla/5.0"},
+                )
+                soup = BeautifulSoup(page.text, "html.parser")
+                # Remove noise
+                for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
+                    tag.decompose()
+                # Grab paragraphs
+                paragraphs = soup.find_all("p")
+                content = " ".join(p.get_text(strip=True) for p in paragraphs[:20])
+            except Exception as e:
+                content = f"Could not fetch content: {e}"
+
+        articles.append({
+            "title": title,
+            "source": source,
+            "date": date,
+            "link": link,
+            "content": content,
         })
 
-    if not results:
-        return "No papers were found for that query."
-
-    paper_summaries = []
-    for paper in results:
-        paper_summary = f"""
-        Title: {paper['title']}
-        Authors: {", ".join(paper['authors'])}
-        Published: {paper['published']}
-        Link: {paper['link']}
-        Abstract: {paper['summary']}
-        """
-        paper_summaries.append(dedent(paper_summary).strip())
-
-    return "\n\n".join(paper_summaries)
+    return json.dumps(articles, ensure_ascii=False)

@@ -3,6 +3,11 @@
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
 - Clone the forked repo
+- Create a `.env` file that looks like the below
+    ```
+    SERPAPI_KEY={insert key here}
+    ```
+- Create a SerpAPI key
 - Download Ollama: https://ollama.com/download
 - `ollama pull granite4:3b`
 - `uv venv --python=3.12`
