@@ -1,3 +1,4 @@
+import asyncio
 import io
 import threading
 import uuid
@@ -6,11 +7,11 @@ from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
 
-from ai_researcher.graph import ResearchGraph
+from ai_researcher.client import MCPOpenAIClient
 
 app = Flask(__name__)
-research_graph = ResearchGraph()
 REPORTS_DIR = Path(__file__).resolve().parents[1] / "tmp"
+SERVER_SCRIPT = Path(__file__).resolve().parent / "server.py"
 jobs = {}
 jobs_lock = threading.Lock()
 
@@ -34,22 +35,35 @@ class JobLogStream(io.TextIOBase):
         return None
 
 
+async def _run_mcp_query(job_id, query):
+    client = MCPOpenAIClient()
+    try:
+        print(f"Connecting MCP client to {SERVER_SCRIPT}", flush=True)
+        await client.connect_to_server(str(SERVER_SCRIPT))
+        print("Connected to MCP server", flush=True)
+        print("MCP client processing query", flush=True)
+        result = await client.process_query(query)
+        print(f"MCP client done processing: {result}", flush=True)
+        return result
+    finally:
+        await client.cleanup()
+        print("MCP client cleaned up", flush=True)
+
+
 def run_search_job(job_id, query):
     stream = JobLogStream(job_id)
 
     try:
         with redirect_stdout(stream), redirect_stderr(stream):
-            result = research_graph.run(query)
+            result = asyncio.run(_run_mcp_query(job_id, query))
 
-        report = result.get("report", "")
-        report_pdf_url = report if isinstance(report, str) and report.startswith("/reports/") else ""
+        report_pdf_url = result if isinstance(result, str) and result.startswith("/reports/") else ""
 
         with jobs_lock:
             jobs[job_id]["status"] = "completed"
             jobs[job_id]["result"] = {
                 "query": query,
-                "research_results": result.get("research_results", ""),
-                "report": report,
+                "report": result,
                 "report_pdf_url": report_pdf_url,
             }
     except Exception as exc:

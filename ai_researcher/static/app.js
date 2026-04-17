@@ -7,7 +7,7 @@ const resultsSection = document.getElementById("results");
 const reportPreview = document.getElementById("report-preview");
 const reportEmpty = document.getElementById("report-empty");
 const reportLink = document.getElementById("report-link");
-const DEFAULT_QUERY = "AI";
+const DEFAULT_QUERY = "Research the latest developments in AI and generate a PDF report.";
 const POLL_INTERVAL_MS = 1000;
 
 function updateLogs(logText) {
@@ -73,7 +73,7 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   setLoading(true);
-  setStatus("Searching arXiv and generating report...");
+  setStatus("Searching Google News and generating report...");
   logSection.classList.remove("hidden");
   updateLogs("$ starting workflow\n");
   resetResults();

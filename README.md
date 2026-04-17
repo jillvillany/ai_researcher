@@ -3,20 +3,21 @@
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
 - Clone the forked repo: `git clone ...`
-- Download Ollama: https://ollama.com/download
-- `ollama pull granite4:3b`
-- `uv venv --python=3.12`
-- `uv sync`
-- `playwright install`
-- `uv pip install -e .`
-- `python ai_researcher/app.py`
-
-
-## Key notes
-- Doc strings are very important for tools
-- We are using Ollama for:
-    - cost free, local inference
-    - optimal privacy and security
-- The model used is VERY important - first tried using llama3:8b and had issues because:
-    - multi-tool tool reasoning is lacking
-    - Tends to summarize the outputs of a tool, rather than passing the full value to the next tool
+- Create a `.env` file that looks like the below
+    ```
+    OPENAI_API_KEY={insert key here}
+    SERPAPI_KEY={insert key here}
+    ```
+- Create an OpenAI API Key
+    - Log into OpenAI API Platform
+    - Click "Create API Keys"
+- Create a SerpAPI API key
+- Create Python env 
+    - `uv venv --python=3.12`
+- Install requirements
+    - `uv sync`
+    - `playwright install`
+    - `uv pip install -e .`
+    - NOTE: If you get the error "No module named 'ai_researcher'", rerun `uv pip install -e .`
+- Run the app
+    - `python ai_researcher/app.py`
