@@ -9,7 +9,7 @@ resolution-markers = [
 [[package]]
 name = "ai-researcher"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "arxiv" },
     { name = "beautifulsoup4" },
