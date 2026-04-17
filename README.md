@@ -2,7 +2,7 @@
 
 ## Quickstart
 - Fork the following repo: https://github.com/jillvillany/ai_researcher
-- Clone the forked repo: `git clone git@github.com:jillvillany/ai_researcher.git`
+- Clone the forked repo
 - Create a `.env` file that looks like the below
     ```
     OPENAI_API_KEY={insert key here}
