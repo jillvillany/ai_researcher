@@ -1,0 +1,7 @@
+.env
+.vscode
+.venv
+.pytest_cache
+ai_researcher
+tmp
+.DS_STORE
