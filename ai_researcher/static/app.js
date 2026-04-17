@@ -1,4 +1,5 @@
 const form = document.getElementById("search-form");
+const queryInput = document.getElementById("query-input");
 const submitButton = document.getElementById("submit-button");
 const statusMessage = document.getElementById("status-message");
 const logSection = document.getElementById("log-section");
@@ -7,7 +8,6 @@ const resultsSection = document.getElementById("results");
 const reportPreview = document.getElementById("report-preview");
 const reportEmpty = document.getElementById("report-empty");
 const reportLink = document.getElementById("report-link");
-const DEFAULT_QUERY = "Research the latest in AI and generate a PDF report.";
 const POLL_INTERVAL_MS = 1000;
 
 function updateLogs(logs) {
@@ -31,7 +31,8 @@ function setStatus(message, isError = false) {
 
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
-  submitButton.textContent = isLoading ? "Working..." : "Search and Generate Report";
+  queryInput.disabled = isLoading;
+  submitButton.textContent = isLoading ? "Working..." : "Generate Report";
 }
 
 async function pollJob(jobId) {
@@ -84,7 +85,7 @@ form.addEventListener("submit", async (event) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query: DEFAULT_QUERY }),
+      body: JSON.stringify({ query: queryInput.value.trim() }),
     });
 
     const startPayload = await startResponse.json();

@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI Researcher</title>
+    <title>Research Report Generator</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -15,10 +16,20 @@
   <body>
     <main class="page-shell">
       <section class="hero-card">
-        <h1>Research the latest in AI</h1>
+        <h1>Research Report Generator</h1>
 
         <form id="search-form" class="search-panel">
-          <button id="submit-button" type="submit">Search and Generate Report</button>
+          <div class="input-row">
+            <input
+              id="query-input"
+              class="query-input"
+              type="text"
+              placeholder="e.g. Latest developments in quantum computing"
+              autocomplete="off"
+              required
+            />
+            <button id="submit-button" type="submit">Generate Report</button>
+          </div>
         </form>
 
         <div class="status-row">
